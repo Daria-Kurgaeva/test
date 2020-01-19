@@ -1,0 +1,458 @@
+@import "helpers.scss";
+@import "mixins.scss";
+
+html, body, div, table, p, h1, h2, h3, h4, h5, h6, a, img, ul, ol, li {
+  margin: 0;
+  padding: 0;
+}
+
+/* General */
+
+@font-face {
+  font-family: 'Gotham Book';
+  src: url('fonts/Gotham-Book.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gotham Bold';
+  src: url('fonts/Gotham-Bold.otf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gotham Black';
+  src: url('fonts/Gotham-Black.otf');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gotham Light';
+  src: url('fonts/Gotham-Light.otf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  @include font-typeface($font-family-regular);
+  font-size: 15px;
+  line-height: 1.5;
+  background: $color-black;
+  color: $color-grey-light;
+}
+
+img {
+  line-height: 0;
+  border: 0 none;
+}
+
+a {
+  text-decoration: none;
+  color: $color-green;
+}
+
+p {
+  @include margin-b(20px);
+}
+
+.go-block {
+  display: block;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.wrapper {
+  @include margin-auto;
+  max-width: 1210px;
+  padding: 0 15px;
+
+  &--narrow {
+    max-width: 810px;
+  }
+}
+
+
+/* Typography */
+
+.width--65 {
+  @include max-width(65%);
+}
+
+.width--half {
+  @include max-width(50%);
+}
+
+.title {
+  @include font-typeface($font-family-bold);
+  @include title(28px);
+  @include margin-b(45px);
+
+  color: $color-white;
+
+  &--size_xl {
+    @include title(115px);
+    @include font-typeface($font-family-black);
+    text-transform: uppercase;
+
+    @include tablet-down {
+      font-size: 64px;
+    }
+
+    @include mob-down {
+      font-size: 50px;
+    }
+  }
+
+  &--size_l {
+    @include title(40px);
+  }
+
+  &--size_m {
+    @include title(31px);
+  }
+
+  &--size_s {
+    @include title(20px);
+    @include margin-b(20px);
+  }
+
+  &--font_light {
+    @include font-typeface($font-family-light);
+    font-weight: 400;
+  }
+}
+
+.highlight {
+  @include font-typeface($font-family-bold);
+  color: $color-white;
+}
+
+
+/* Links */
+
+.link {
+  position: relative;
+  cursor: pointer;
+  text-align: left;
+
+  @include flexbox;
+
+  @include margin-b(16px);
+
+  &:before {
+    content: "";
+    width: 100%;
+    max-width: 24px;
+    height: 24px;
+    margin-right: 4px;
+    position: relative;
+  }
+
+  &--type_pdf:before {
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14 8V3H7C5.89543 3 5 3.89543 5 5V18C5 19.1046 5.89543 20 7 20H17C18.1046 20 19 19.1046 19 18V8H14ZM15 7H19L15 3V7ZM7 17V12H8.5C9.32843 12 10 12.6716 10 13.5C10 14.3284 9.32843 15 8.5 15H8V17H7ZM9 13.5C9 13.7761 8.77614 14 8.5 14H8V13H8.5C8.77614 13 9 13.2239 9 13.5ZM11 12V17H12C13.1046 17 14 16.1046 14 15V14C14 12.8954 13.1046 12 12 12H11ZM12 13C12.5523 13 13 13.4477 13 14V15C13 15.5523 12.5523 16 12 16V13ZM16 17H15V12H18V13H16V14H17V15H16V17Z' fill='%2300B336'/%3E%3C/svg%3E%0A");
+  }
+
+  &--type_blog:before {
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14 8V3H7C5.89543 3 5 3.89543 5 5V18C5 19.1046 5.89543 20 7 20H17C18.1046 20 19 19.1046 19 18V8H14ZM15 7H19L15 3V7ZM13 16H8V17H13V16ZM8 13H16V14H8V13ZM16 10H8V11H16V10Z' fill='%2300B336'/%3E%3C/svg%3E%0A");
+  }
+
+  &--type_video:before {
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M6 6H18C19.1046 6 20 6.89543 20 8V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V8C4 6.89543 4.89543 6 6 6ZM10 15V9L15 12L10 15Z' fill='%2300B336'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M6 6H18C19.1046 6 20 6.89543 20 8V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V8C4 6.89543 4.89543 6 6 6ZM10 15V9L15 12L10 15Z' fill='%2300B336'/%3E%3C/svg%3E%0A");
+  }
+
+  &--centered {
+    justify-content: center;
+  }
+}
+
+/* Preheader */
+
+.preheader {
+  background: $color-grey;
+
+  &__logo {
+    display: block;
+
+    svg, img {
+      width: 72px;
+    }
+  }
+}
+
+.logos {
+  @include flexbox;
+
+  &__item {
+    &:not(:last-child) {
+      margin-right: 40px;
+    }
+
+    svg {
+      fill: $color-white;
+      height: 40px;
+      width: 100px;
+    }
+  }
+}
+
+/* Header*/
+
+.header {
+  padding: 220px 0 100px;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 800px;
+    height: 100%;
+    top: 0;
+    left: calc(50% - 582.5px);
+    @include background(transparent, $header, 900px);
+    z-index: -99;
+  }
+
+  &__container {
+    @include flexbox;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title {
+    padding-left: 74px;
+  }
+
+  &__words {
+    max-width: 770px;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+/* Sections */
+
+
+.bordered {
+  &-bottom {
+    @include bordered-section(bottom);
+  }
+
+  &-top {
+    @include bordered-section(top);
+  }
+}
+
+.division {
+  @include margin-b(110px);
+}
+
+/* Common */
+
+.common {
+  @include margin-b(80px);
+
+  @include tablet-down {
+    @include margin-b(80px);
+  }
+
+  &--flex {
+    @include flexbox;
+    justify-content: space-between;
+
+    @include tablet-down {
+      flex-direction: column;
+    }
+
+    &-start {
+      align-items: flex-start;
+    }
+  }
+
+  &__item {
+    &:not(:last-child) {
+      margin-right: 120px;
+
+      @include desktop-down {
+        margin-right: 90px;
+      }
+
+      @include tablet-down {
+        margin: 0 0 40px;
+      }
+    }
+  }
+
+  &__txt--al_center {
+    text-align: center;
+    @include margin-auto;
+    @include max-width(90%);
+  }
+
+  .title + & {
+    @include tablet-up {
+      margin-top: 40px;
+    }
+  }
+
+  &--bgr {
+    padding-right: 290px;
+    @include background(transparent, $shooting-man, contain);
+    background-position: center right;
+  }
+
+}
+
+.icons {
+  &__item {
+    @include flexbox;
+
+    &:not(:last-child) {
+      margin-right: 40px;
+    }
+  }
+
+  &__item:before {
+    content: '';
+    background-repeat: no-repeat;
+    width: 100%;
+    margin-right: 35px;
+  }
+
+  @for $i from 1 through length($icons) {
+    &__item:nth-child(#{$i}):before {
+      background-image: map-get(nth($icons, $i), url);
+      max-width: map-get(nth($icons, $i), width);
+      height: map-get(nth($icons, $i), height);
+    }
+  }
+}
+
+.cards {
+  @include desktop-down {
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    @include flexbox;
+    align-items: center;
+
+    &:before {
+      content: '';
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 35px;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    @for $i from 1 through length($mini-icons) {
+      .cards__item:nth-child(#{$i}) &:before {
+        background-image: map-get(nth($mini-icons, $i), url);
+        max-width: map-get(nth($mini-icons, $i), width);
+      }
+    }
+  }
+
+  &__item {
+    box-sizing: border-box;
+    color: $color-white;
+    position: relative;
+    padding: 300px 20px 25px;
+    flex: 0 1 25%;
+    background-repeat: no-repeat;
+    background-size: 170px;
+    background-position: center 30px;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: 20px;
+      border: $border-regular;
+      transition: all .3s linear;
+    }
+
+    &:hover:after {
+      border: 3px solid $color-green;
+    }
+
+    &--bgr_bigger {
+      background-size: 190px;
+    }
+
+    @for $i from 1 through length($cards) {
+      &:nth-child(#{$i}) {
+        background-image: nth($cards, $i);
+      }
+    }
+
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+
+    @include desktop-down {
+      flex: 1 0 calc(50% - 100px);
+
+      &:not(:last-child) {
+        margin: 0 30px 30px 0;
+      }
+
+      &:nth-child(even) {
+        margin-right: 0;
+      }
+
+      &:nth-last-child(-n+2) {
+        margin-bottom: 0;
+      }
+    }
+
+    @include tablet-down {
+      &:not(:last-child) {
+        margin: 0 0 30px;
+      }
+    }
+  }
+}
+
+/* Form */
+
+.form-wrapper {
+  max-width: 390px;
+  margin: 0 auto;
+}
+
+.mForm {
+  title {
+    @include desktop-up {
+      text-align: left;
+    }
+  }
+
+  &__note {
+    margin: -15px 0 10px;
+    text-align: left;
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  &__btn-green, &__btn-green-light {
+    @include desktop-down {
+      min-width: auto;
+    }
+  }
+}
+
+
+
+

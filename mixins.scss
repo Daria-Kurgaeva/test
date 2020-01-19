@@ -1,0 +1,98 @@
+@mixin pseudo {
+    content: '';
+    position: absolute;
+}
+
+@mixin hide($minOrMax, $val) {
+    @media screen and ($minOrMax: $val) {
+        display: none;
+    }
+}
+
+@mixin section-gap($pad) {
+    padding: $pad 0;
+
+    @include tablet-down {
+        padding: ($pad - 20) 0;
+    }
+}
+
+@mixin to-center {
+    @include flexbox;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@mixin margin-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@mixin margin-b($margin) {
+    &:not(:last-child) {
+        margin-bottom: $margin;
+        @include mob-down {
+            @if $margin > 39px {
+                margin-bottom: $margin - 10;
+            }
+        }
+    }
+}
+
+@mixin title($size) {
+    font-size: $size;
+
+    @include mob-down {
+        @if $size > 34px {
+            font-size: $size - 11;
+        }
+    }
+}
+
+@mixin background($clr:$color-white, $pic:none, $size:cover) {
+    @if $pic == none {
+        background: $clr;
+    } @else  {
+        background-color: $clr;
+        background-image: $pic;
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        background-size: $size;
+    }
+
+    @if index($dark-backgrounds, $clr) {
+        color: $color-white;
+    }
+}
+
+/* Positioning */
+
+@mixin flexbox {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+@mixin max-width($width) {
+    max-width: $width;
+
+    @include tablet-down {
+        max-width: none;
+    }
+}
+
+@mixin bordered-section($side) {
+    margin-#{$side}: $section-padding;
+    padding-#{$side}: $section-padding;
+    border-#{$side}: $border-regular;
+
+    @include tablet-down {
+        margin-#{$side}: $section-padding - 30;
+        padding-#{$side}: $section-padding - 30;
+    }
+}
+
+@mixin font-typeface($family) {
+    font-family: #{$family}, Arial, sans-serif;
+}
