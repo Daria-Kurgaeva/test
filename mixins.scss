@@ -1,5 +1,5 @@
 @mixin font-typeface($family) {
-  font-family: #{$family}, Arial, sans-serif;
+  font-family: '#{$family}', Arial, sans-serif;
 }
 
 @mixin pseudo {
