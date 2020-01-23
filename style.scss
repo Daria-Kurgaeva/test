@@ -10,28 +10,32 @@ html, body, div, table, p, h1, h2, h3, h4, h5, h6, a, img, ul, ol, li {
 
 @font-face {
   font-family: 'Gotham Book';
-  src: url('fonts/Gotham-Book.otf');
+  src: url('fonts/gotham-book-webfont.woff2') format('woff2'),
+       url('fonts/gotham-book-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Gotham Bold';
-  src: url('fonts/Gotham-Bold.otf');
+  src: url('fonts/gotham-bold-webfont.woff2') format('woff2'),
+       url('fonts/gotham-bold-webfont.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Gotham Black';
-  src: url('fonts/Gotham-Black.otf');
+  src: url('fonts/gotham-black-webfont.woff2') format('woff2'),
+       url('fonts/gotham-black-webfont.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Gotham Light';
-  src: url('fonts/Gotham-Light.otf');
+  src: url('fonts/gotham-light-webfont.woff2') format('woff2'),
+       url('fonts/gotham-light-webfont.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
@@ -40,8 +44,7 @@ body {
   @include font-typeface($font-family-regular);
   font-size: 15px;
   line-height: 1.5;
-  background: $color-black;
-  color: $color-grey-light;
+  @include background($color-black);
 }
 
 img {
@@ -51,19 +54,10 @@ img {
 
 a {
   text-decoration: none;
-  color: $color-green;
 }
 
 p {
   @include margin-b(20px);
-}
-
-.go-block {
-  display: block;
-}
-
-.nowrap {
-  white-space: nowrap;
 }
 
 .wrapper {
@@ -76,15 +70,62 @@ p {
   }
 }
 
+.main {
+  padding-bottom: 80px;
+
+  @include tablet-down {
+    padding-bottom: 50px;
+  }
+}
+
+/* Classes-helpers */
+
+.go-block {
+  display: block;
+}
+
+.tablet-centered {
+  @include tablet-down {
+    text-align: center;
+  }
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+
+.limited-width {
+  // max-width from 25% to 100%
+  @for $i from 5 through 20 {
+    &--#{$i * 5} {
+      @include max-width(($i * percentage(.1)) / 2);
+    }
+  }
+}
+
+.bordered {
+  &-bottom {
+    @include bordered-section(bottom);
+  }
+
+  &-top {
+    @include bordered-section(top);
+  }
+}
 
 /* Typography */
 
-.width--65 {
-  @include max-width(65%);
+.link {
+  color: $color-green;
+
+  &:hover {
+    color: $color-green-hover;
+  }
 }
 
-.width--half {
-  @include max-width(50%);
+.paragraph-big {
+  font-size: 18px;
 }
 
 .title {
@@ -92,15 +133,54 @@ p {
   @include title(28px);
   @include margin-b(45px);
 
+  @include desktop-down {
+    font-size: 22px;
+  }
+
+  @include tablet-down {
+    @include margin-b(30px);
+  }
+
   color: $color-white;
 
-  &--size_xl {
+  &--size_xxl {
     @include title(115px);
     @include font-typeface($font-family-black);
     text-transform: uppercase;
 
+    @include desktop-down {
+      font-size: 100px;
+    }
+
     @include tablet-down {
-      font-size: 64px;
+      font-size: 80px;
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: 60px;
+    }
+
+    @include mob-down {
+      font-size: 50px;
+    }
+
+    @include mob-mini-down {
+      font-size: 40px;
+    }
+  }
+
+  &--size_xl {
+    @include title(100px);
+    @include font-typeface($font-family-black);
+    text-transform: uppercase;
+    @include margin-b(35px);
+
+    @include desktop-down {
+      font-size: 80px;
+    }
+
+    @include tablet-down {
+      font-size: 60px;
     }
 
     @include mob-down {
@@ -110,63 +190,96 @@ p {
 
   &--size_l {
     @include title(40px);
+    @include font-typeface($font-family-black);
+
+    @include tablet-down {
+      font-size: 30px;
+    }
   }
 
   &--size_m {
     @include title(31px);
+
+    @include tablet-down {
+      font-size: 26px;
+    }
+
+    @include mob-down {
+      font-size: 24px;
+    }
   }
 
   &--size_s {
     @include title(20px);
     @include margin-b(20px);
+
+    @include mob-down {
+      font-size: 16px;
+      @include margin-b(10px);
+    }
+  }
+
+  &--margin_reduced {
+    @include margin-b(10px);
   }
 
   &--font_light {
     @include font-typeface($font-family-light);
     font-weight: 400;
   }
+
+  &--font_regular {
+    @include font-typeface($font-family-regular);
+  }
 }
 
 .highlight {
   @include font-typeface($font-family-bold);
-  color: $color-white;
 }
 
 
-/* Links */
+/* Buttons */
 
-.link {
-  position: relative;
-  cursor: pointer;
-  text-align: left;
+.btn {
+  border: $border-regular;
+  padding: 10px 15px;
+  color: $color-white;
+  border-radius: 40px;
 
-  @include flexbox;
-
-  @include margin-b(16px);
-
-  &:before {
-    content: "";
-    width: 100%;
-    max-width: 24px;
-    height: 24px;
-    margin-right: 4px;
-    position: relative;
+  &:hover {
+    background: $color-grey-5c;
   }
 
-  &--type_pdf:before {
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14 8V3H7C5.89543 3 5 3.89543 5 5V18C5 19.1046 5.89543 20 7 20H17C18.1046 20 19 19.1046 19 18V8H14ZM15 7H19L15 3V7ZM7 17V12H8.5C9.32843 12 10 12.6716 10 13.5C10 14.3284 9.32843 15 8.5 15H8V17H7ZM9 13.5C9 13.7761 8.77614 14 8.5 14H8V13H8.5C8.77614 13 9 13.2239 9 13.5ZM11 12V17H12C13.1046 17 14 16.1046 14 15V14C14 12.8954 13.1046 12 12 12H11ZM12 13C12.5523 13 13 13.4477 13 14V15C13 15.5523 12.5523 16 12 16V13ZM16 17H15V12H18V13H16V14H17V15H16V17Z' fill='%2300B336'/%3E%3C/svg%3E%0A");
+  &--submit {
+    border: none;
+    background: $color-blue;
+    padding: 15px 50px;
+
+    &:hover {
+      background: $color-blue-hover;
+    }
+
+    &:not(:first-child) {
+      margin-top: 40px;
+
+      @include tablet-down {
+        margin-top: 30px;
+      }
+    }
   }
 
-  &--type_blog:before {
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M14 8V3H7C5.89543 3 5 3.89543 5 5V18C5 19.1046 5.89543 20 7 20H17C18.1046 20 19 19.1046 19 18V8H14ZM15 7H19L15 3V7ZM13 16H8V17H13V16ZM8 13H16V14H8V13ZM16 10H8V11H16V10Z' fill='%2300B336'/%3E%3C/svg%3E%0A");
-  }
+  &-container {
+    @include flexbox;
+    flex-wrap: wrap;
+    margin-bottom: -5px;
 
-  &--type_video:before {
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M6 6H18C19.1046 6 20 6.89543 20 8V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V8C4 6.89543 4.89543 6 6 6ZM10 15V9L15 12L10 15Z' fill='%2300B336'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M6 6H18C19.1046 6 20 6.89543 20 8V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V8C4 6.89543 4.89543 6 6 6ZM10 15V9L15 12L10 15Z' fill='%2300B336'/%3E%3C/svg%3E%0A");
-  }
+    .btn {
+      margin-bottom: 5px;
 
-  &--centered {
-    justify-content: center;
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
   }
 }
 
@@ -174,12 +287,12 @@ p {
 
 .preheader {
   background: $color-grey;
+  font-size: 0;
 
   &__logo {
-    display: block;
-
     svg, img {
-      width: 72px;
+      width: 50px;
+      height: 50px;
     }
   }
 }
@@ -203,51 +316,125 @@ p {
 /* Header*/
 
 .header {
-  padding: 220px 0 100px;
-  position: relative;
-
-  &:before {
-    content: "";
-    position: absolute;
-    width: 800px;
-    height: 100%;
-    top: 0;
-    left: calc(50% - 582.5px);
-    @include background(transparent, $header, 900px);
-    z-index: -99;
-  }
-
   &__container {
     @include flexbox;
+    min-height: 470px;
+
+    @include desktop-down {
+      margin-left: -100px;
+    }
+
+    @include tablet-down {
+      margin-left: -10px;
+      margin-right: 20px;
+      min-height: 380px;
+    }
+
+    @media screen and (max-width: 600px) {
+      display: block;
+      min-height: 0;
+      margin: 0;
+    }
+  }
+
+  &__part {
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    @include background($color-black, $header, cover);
+    min-height: 470px;
+
+    &--left {
+      overflow: hidden;
+      max-width: 517px;
+      width: 100%;
+      text-align: right;
+      background-position: calc(100% + 362px) 0;
+
+      @include tablet-down {
+        max-width: none;
+        background-position: calc(100% + 292px) 0;
+      }
+
+      .words {
+        margin-right: -8px;
+        margin-top: 50px;
+      }
+    }
+
+    &--right {
+      position: relative;
+      z-index: -99;
+      background-position: -394px 0;
+
+      .words {
+        margin-left: -24px;
+        margin-top: 60px;
+
+        @include desktop-down {
+          margin-left: -20px;
+          margin-top: 75px;
+        }
+
+        @include tablet-down {
+          margin-left: -15px;
+        }
+      }
+
+      @include tablet-down {
+        margin-left: 0;
+        background-position: -318px 0;
+      }
+
+      @media screen and (max-width: 600px) {
+        z-index: auto;
+      }
+    }
+
+    @include tablet-down {
+      min-height: 380px;
+    }
+
+    @media screen and (max-width: 600px) {
+      min-height: 0;
+      background: none;
+      text-align: right;
+
+      .words {
+        margin: 0;
+      }
+    }
   }
 
-  .title {
-    padding-left: 74px;
+  @media screen and (max-width: 600px) {
+    @include background(transparent, $header, 540px);
+    background-position: -282px 0;
+    padding: 80px 0;
   }
 
-  &__words {
-    max-width: 770px;
+  //For IE only
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    &__part {
+      background-image: $header-png;
 
-    &:not(:last-child) {
-      margin-bottom: 10px;
+      &--right {
+        background-position: -499px 0;
+      }
+    }
+  }
+  //For Edge only
+  @supports (-ms-ime-align:auto) {
+    &__part {
+      background-image: $header-png;
+
+      &--right {
+        background-position: -499px 0;
+      }
     }
   }
 }
 
 /* Sections */
-
-
-.bordered {
-  &-bottom {
-    @include bordered-section(bottom);
-  }
-
-  &-top {
-    @include bordered-section(top);
-  }
-}
 
 .division {
   @include margin-b(110px);
@@ -259,7 +446,7 @@ p {
   @include margin-b(80px);
 
   @include tablet-down {
-    @include margin-b(80px);
+    @include margin-b(40px);
   }
 
   &--flex {
@@ -269,13 +456,20 @@ p {
     @include tablet-down {
       flex-direction: column;
     }
+  }
 
-    &-start {
-      align-items: flex-start;
+  &--margin_reduced {
+    @include margin-b(40px);
+
+    @include tablet-down {
+      @include margin-b(30px);
     }
   }
 
   &__item {
+    width: 100%;
+
+
     &:not(:last-child) {
       margin-right: 120px;
 
@@ -287,34 +481,133 @@ p {
         margin: 0 0 40px;
       }
     }
-  }
 
-  &__txt--al_center {
-    text-align: center;
-    @include margin-auto;
-    @include max-width(90%);
-  }
-
-  .title + & {
-    @include tablet-up {
-      margin-top: 40px;
+    &--gap_reduced {
+      &:not(:last-child) {
+        margin-right: 30px;
+      }
     }
   }
 
   &--bgr {
-    padding-right: 290px;
-    @include background(transparent, $shooting-man, contain);
-    background-position: center right;
-  }
+    &_shooting {
+      @include background(transparent, $shooting-man, contain);
+      background-position: right center;
+      padding-right: 290px;
+      box-sizing: border-box;
 
+      @include tablet-down {
+        padding-right: 200px;
+      }
+
+      @media screen and (max-width: 600px) {
+        background-size: 150px;
+        padding: 170px 0 0;
+        background-position: center top;
+      }
+
+    }
+
+    &_rushing {
+      @include background(transparent, $rushing-man, 420px);
+      background-position: right center;
+
+      @include desktop-down {
+        background-size: auto;
+      }
+
+      @include tablet-down {
+        background-size: 300px;
+      }
+
+      @media screen and (max-width: 700px) {
+        background: none;
+      }
+    }
+
+    &_gang {
+      position: relative;
+
+      @media screen and (max-width: 700px) {
+        padding-bottom: 230px;
+      }
+
+      &:after {
+        @include pseudo;
+        @include background(transparent, $gang, contain);
+        background-position: 75% bottom;
+
+        @media screen and (max-width: 1200px) {
+          z-index: -99;
+          background-position: 100% bottom;
+        }
+
+        @include desktop-down {
+          background-size: 500px;
+        }
+
+        @media screen and (max-width: 900px) {
+          background-size: 350px;
+        }
+
+        @media screen and (max-width: 700px) {
+          background-position: left bottom;
+        }
+      }
+    }
+
+    &_yoga {
+      position: relative;
+      padding-bottom: 120px;
+
+      @include tablet-down {
+        padding-bottom: 70px;
+      }
+
+      @media screen and (max-width: 600px) {
+        padding-bottom: 60px;
+      }
+
+      @include mob-down {
+        padding-bottom: 0;
+      }
+
+      &:after {
+        @include pseudo;
+        left: -25px;
+        @include background(transparent, $yoga, 140px);
+        background-position: left bottom;
+
+        @include tablet-down {
+          background-size: 90px;
+          left: -13px;
+        }
+
+        @media screen and (max-width: 600px) {
+          background-size: 70px;
+          left: -10px;
+        }
+
+        @include mob-down {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 .icons {
   &__item {
     @include flexbox;
 
+    @include desktop-down {
+      flex-direction: column;
+    }
+
     &:not(:last-child) {
-      margin-right: 40px;
+      @include tablet-up {
+        margin-right: 40px;
+      }
     }
   }
 
@@ -323,6 +616,16 @@ p {
     background-repeat: no-repeat;
     width: 100%;
     margin-right: 35px;
+    flex-shrink: 0;
+
+    @include desktop-down {
+      margin: 0 0 25px;
+      background-position: center center;
+    }
+
+    @include tablet-down {
+      margin: 0 auto 25px;
+    }
   }
 
   @for $i from 1 through length($icons) {
@@ -330,13 +633,25 @@ p {
       background-image: map-get(nth($icons, $i), url);
       max-width: map-get(nth($icons, $i), width);
       height: map-get(nth($icons, $i), height);
+
+      @include desktop-down {
+        height: 65px;
+      }
     }
+  }
+
+  @include tablet-down {
+    text-align: center;
   }
 }
 
 .cards {
   @include desktop-down {
     flex-wrap: wrap;
+  }
+
+  @include tablet-down {
+    align-items: center;
   }
 
   &__title {
@@ -358,6 +673,10 @@ p {
         max-width: map-get(nth($mini-icons, $i), width);
       }
     }
+
+    @include tablet-down {
+      justify-content: center;
+    }
   }
 
   &__item {
@@ -369,6 +688,7 @@ p {
     background-repeat: no-repeat;
     background-size: 170px;
     background-position: center 30px;
+    transition: background .3s linear;
 
     &:after {
       content: '';
@@ -380,11 +700,11 @@ p {
       right: 0;
       border-radius: 20px;
       border: $border-regular;
-      transition: all .3s linear;
+      transition: border .3s linear;
     }
 
     &:hover:after {
-      border: 3px solid $color-green;
+      border: 2px solid $color-green;
     }
 
     &--bgr_bigger {
@@ -393,7 +713,11 @@ p {
 
     @for $i from 1 through length($cards) {
       &:nth-child(#{$i}) {
-        background-image: nth($cards, $i);
+        background-image: map-get(nth($cards, $i), grey);
+      }
+
+      &:hover:nth-child(#{$i}) {
+        background-image: map-get(nth($cards, $i), colored);
       }
     }
 
@@ -418,6 +742,9 @@ p {
     }
 
     @include tablet-down {
+      max-width: 450px;
+      width: 100%;
+
       &:not(:last-child) {
         margin: 0 0 30px;
       }
@@ -427,30 +754,129 @@ p {
 
 /* Form */
 
-.form-wrapper {
-  max-width: 390px;
-  margin: 0 auto;
+input, select, textarea, button {
+  font: inherit;
 }
 
-.mForm {
-  title {
-    @include desktop-up {
-      text-align: left;
-    }
-  }
+input, select, textarea {
+  box-sizing: border-box;
+  padding: 12px 15px;
+  width: 100%;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1px solid $color-grey-extra-light;
+  color: $color-black;
 
-  &__note {
-    margin: -15px 0 10px;
-    text-align: left;
-    font-size: 12px;
-    font-style: italic;
+  &:focus {
+    outline: none;
+    border-color: $color-blue;
   }
+}
 
-  &__btn-green, &__btn-green-light {
+input, textarea {
+  background-color: $color-white;
+}
+
+textarea {
+  resize: none;
+  overflow: auto;
+  height: 100%;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  border-radius: 0;
+  position: relative;
+  cursor: pointer;
+  z-index: 10;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+::placeholder {
+  color: $color-grey-light;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder, ::-ms-input-placeholder {
+  color: $color-grey-light;
+}
+
+.form {
+  .common {
     @include desktop-down {
-      min-width: auto;
+      display: block;
+
+      &__item {
+        @include margin-b(20px);
+      }
     }
   }
+
+  @include desktop-down {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+
+  &__container {
+    @include flexbox;
+    justify-content: space-between;
+  }
+
+  &__col {
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+  }
+
+  &__field {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    &--select {
+      position: relative;
+      background-color: $color-white;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 15px;
+        right: 17px;
+        width: 12px;
+        height: 12px;
+        border-top: 2px solid $color-grey-69;
+        border-right: 2px solid $color-grey-69;
+        transform: rotate(135deg);
+        z-index: 5;
+        transition: all .3s ease-in-out;
+      }
+
+      &:focus-within:after {
+        top: 17px;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}
+
+//Additional
+
+.margin-reboot {
+  @include margin-b(0);
 }
 
 
