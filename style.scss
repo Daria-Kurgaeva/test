@@ -6,12 +6,25 @@ html, body, div, table, p, h1, h2, h3, h4, h5, h6, a, img, ul, ol, li {
   padding: 0;
 }
 
+//Keyframes
+
+@for $i from 1 through length($cards) {
+  @include keyframes(change_bgr--#{$i}) {
+    0% {
+      background-image: map-get(nth($cards, $i), grey);
+    }
+    100% {
+      background-image: map-get(nth($cards, $i), colored);
+    }
+  }
+}
+
 /* General */
 
 @font-face {
   font-family: 'Gotham Book';
   src: url('fonts/gotham-book-webfont.woff2') format('woff2'),
-       url('fonts/gotham-book-webfont.woff') format('woff');
+  url('fonts/gotham-book-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -19,7 +32,7 @@ html, body, div, table, p, h1, h2, h3, h4, h5, h6, a, img, ul, ol, li {
 @font-face {
   font-family: 'Gotham Bold';
   src: url('fonts/gotham-bold-webfont.woff2') format('woff2'),
-       url('fonts/gotham-bold-webfont.woff') format('woff');
+  url('fonts/gotham-bold-webfont.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
@@ -27,7 +40,7 @@ html, body, div, table, p, h1, h2, h3, h4, h5, h6, a, img, ul, ol, li {
 @font-face {
   font-family: 'Gotham Black';
   src: url('fonts/gotham-black-webfont.woff2') format('woff2'),
-       url('fonts/gotham-black-webfont.woff') format('woff');
+  url('fonts/gotham-black-webfont.woff') format('woff');
   font-weight: bold;
   font-style: normal;
 }
@@ -35,7 +48,7 @@ html, body, div, table, p, h1, h2, h3, h4, h5, h6, a, img, ul, ol, li {
 @font-face {
   font-family: 'Gotham Light';
   src: url('fonts/gotham-light-webfont.woff2') format('woff2'),
-       url('fonts/gotham-light-webfont.woff') format('woff');
+  url('fonts/gotham-light-webfont.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
@@ -45,6 +58,7 @@ body {
   font-size: 15px;
   line-height: 1.5;
   @include background($color-black);
+  color: $color-grey-light;
 }
 
 img {
@@ -67,14 +81,6 @@ p {
 
   &--narrow {
     max-width: 810px;
-  }
-}
-
-.main {
-  padding-bottom: 80px;
-
-  @include tablet-down {
-    padding-bottom: 50px;
   }
 }
 
@@ -225,6 +231,7 @@ p {
 
   &--font_light {
     @include font-typeface($font-family-light);
+    color: $color-grey-e3;
     font-weight: 400;
   }
 
@@ -235,6 +242,7 @@ p {
 
 .highlight {
   @include font-typeface($font-family-bold);
+  color: $color-white;
 }
 
 
@@ -245,9 +253,27 @@ p {
   padding: 10px 15px;
   color: $color-white;
   border-radius: 40px;
+  position: relative;
 
   &:hover {
     background: $color-grey-5c;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: transparent;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: 40px;
+      border: 2px solid $color-violet;
+    }
   }
 
   &--submit {
@@ -437,7 +463,15 @@ p {
 /* Sections */
 
 .division {
-  @include margin-b(110px);
+  margin-bottom: 110px;
+
+  @include tablet-down {
+    margin-bottom: 80px;
+  }
+
+  @include mob-down {
+    margin-bottom: 50px;
+  }
 }
 
 /* Common */
@@ -489,6 +523,22 @@ p {
     }
   }
 
+  &--custom {
+    .common__item {
+      box-sizing: border-box;
+
+      &:not(:last-child) {
+        margin: 0;
+        padding-right: 70px;
+
+        @include tablet-down {
+          padding: 0;
+          margin: 0 0 40px;
+        }
+      }
+    }
+  }
+
   &--bgr {
     &_shooting {
       @include background(transparent, $shooting-man, contain);
@@ -509,8 +559,8 @@ p {
     }
 
     &_rushing {
-      @include background(transparent, $rushing-man, 420px);
-      background-position: right center;
+      @include background(transparent, $rushing-man, 560px);
+      background-position: right bottom;
 
       @include desktop-down {
         background-size: auto;
@@ -518,6 +568,7 @@ p {
 
       @include tablet-down {
         background-size: 300px;
+        background-position: right center;
       }
 
       @media screen and (max-width: 700px) {
@@ -688,7 +739,6 @@ p {
     background-repeat: no-repeat;
     background-size: 170px;
     background-position: center 30px;
-    transition: background .3s linear;
 
     &:after {
       content: '';
@@ -718,6 +768,7 @@ p {
 
       &:hover:nth-child(#{$i}) {
         background-image: map-get(nth($cards, $i), colored);
+        animation: change_bgr--#{$i} .3s linear;
       }
     }
 
@@ -763,8 +814,10 @@ input, select, textarea {
   padding: 12px 15px;
   width: 100%;
   border-radius: 0;
-  -webkit-appearance: none;
   appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
   border: 1px solid $color-grey-extra-light;
   color: $color-black;
 
@@ -785,10 +838,6 @@ textarea {
 }
 
 select {
-  appearance: none;
-  -webkit-appearance: none;
-  -ms-appearance: none;
-  -moz-appearance: none;
   background-color: transparent;
   border-radius: 0;
   position: relative;

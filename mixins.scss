@@ -51,10 +51,6 @@
     background-position: 0 0;
     background-size: $size;
   }
-
-  @if index($dark-backgrounds, $clr) {
-    color: $color-white;
-  }
 }
 
 /* Positioning */
@@ -81,5 +77,21 @@
   @include tablet-down {
     margin-#{$side}: $section-padding - 30;
     padding-#{$side}: $section-padding - 30;
+  }
+}
+
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
   }
 }
