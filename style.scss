@@ -6,19 +6,6 @@ html, body, div, table, p, h1, h2, h3, h4, h5, h6, a, img, ul, ol, li {
   padding: 0;
 }
 
-//Keyframes
-
-@for $i from 1 through length($cards) {
-  @include keyframes(change_bgr--#{$i}) {
-    0% {
-      background-image: map-get(nth($cards, $i), grey);
-    }
-    100% {
-      background-image: map-get(nth($cards, $i), colored);
-    }
-  }
-}
-
 /* General */
 
 @font-face {
@@ -768,7 +755,6 @@ p {
 
       &:hover:nth-child(#{$i}) {
         background-image: map-get(nth($cards, $i), colored);
-        animation: change_bgr--#{$i} .3s linear;
       }
     }
 
